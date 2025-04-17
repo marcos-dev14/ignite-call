@@ -1,7 +1,13 @@
 import { Button, Checkbox, Heading, MultiStep, Text, TextInput } from "@ignite-ui/react"
+import { useRouter } from "next/router"
 import { Controller, useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { ArrowRight } from "phosphor-react"
+
+import { api } from "@/src/lib/axios"
+import { getWeekDays } from "@/src/utils/get-week-days"
+import { ConvertTimeStringToMinutes } from "@/src/utils/convert-time-string-to-minutes"
 
 import { Container, Header } from "../styles"
 import { 
@@ -12,10 +18,6 @@ import {
   IntervalItem, 
   IntervalsContainer 
 } from "./styles"
-import { ArrowRight } from "phosphor-react"
-import { getWeekDays } from "@/src/utils/get-week-days"
-import { ConvertTimeStringToMinutes } from "@/src/utils/convert-time-string-to-minutes"
-import { api } from "@/src/lib/axios"
 
 const timeIntervalsFormSchema = z.object({
   intervals: z.array(
@@ -75,6 +77,8 @@ export default function TimeIntervals() {
     }
   })
 
+  const router = useRouter()
+
   const weekDays = getWeekDays()
   
   const { fields } = useFieldArray({
@@ -88,6 +92,8 @@ export default function TimeIntervals() {
     const { intervals } = data as TimeIntervalsFormOutput
 
     await api.post('/users/time-intervals', { intervals })
+
+    await router.push('/register/update-profile')
   }
 
   return (
