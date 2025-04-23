@@ -3,8 +3,9 @@ import { Avatar, Heading, Text } from "@ignite-ui/react"
 
 import { prisma } from "@/src/lib/prisma"
 
-import { Container, UserHeader } from "./styles"
 import { ScheduleForm } from "./scheduleForm"
+
+import { Container, UserHeader } from "./styles"
 
 interface ScheduleProps {
   user: {
